@@ -1,22 +1,3 @@
-local function MainStats()
-    local instruments = {
-        ARM_Instrument_Drum = "Drum",
-        ARM_Instrument_Flute = "Flute",
-        ARM_Instrument_Lute = "Lute",
-        ARM_Instrument_Lyre = "Lyre",
-        ARM_Instrument_Violin = "Violin",
-        SCL_SpidersLyre = "Lyre"
-    }
-    for name, instrument in pairs(instruments) do
-        local stat = Ext.Stats.Get(name)
-        local groupBoost = string.format(
-            ";IF(HasProficiency('MusicalInstrument',context.Source)):UnlockSpell(Shout_Bard_Perform_%s_Group)",
-            instrument)
-        stat.Boosts = stat.Boosts .. groupBoost
-    end
-end
-
-
 local function ModCompatibility()
     -- Instruments of the Bard (https://www.nexusmods.com/baldursgate3/mods/4998)
     if Ext.Mod.IsModLoaded("b5dc323a-19b8-4174-8aa1-004306a6abb3") then
@@ -130,7 +111,6 @@ end
 
 
 local function OnStatsLoaded()
-    MainStats()
     ModCompatibility()
 end
 Ext.Events.StatsLoaded:Subscribe(OnStatsLoaded)
