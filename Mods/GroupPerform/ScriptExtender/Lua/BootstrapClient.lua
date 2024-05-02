@@ -126,6 +126,25 @@ local function ModCompatibility()
             end
         end
     end
+
+    -- Bard Gear (https://www.nexusmods.com/baldursgate3/mods/3008)
+    if Ext.Mod.IsModLoaded("b79bb1f3-992f-4d3b-869f-0b0b4b0442d9") then
+        local instruments = {
+            MAG_Instrument_Drum_1 = "Drum",
+            MAG_Instrument_Flute_1 = "Flute",
+            MAG_Instrument_Lute_1 = "Lute",
+            MAG_Instrument_Lyre_1 = "Lyre",
+            MAG_Instrument_Violin_1 = "Violin"
+        }
+        for name, instrument in pairs(instruments) do
+            local stat = Ext.Stats.Get(name)
+            local groupBoost = string.format(" UnlockSpell(Shout_Bard_Perform_%s_Group);", instrument)
+            local index = string.find(stat.Boosts, ";")
+            local firstPart = string.sub(stat.Boosts, 1, index)
+            local secondPart = string.sub(stat.Boosts, index + 1)
+            stat.Boosts = firstPart .. groupBoost .. secondPart
+        end
+    end
 end
 
 
