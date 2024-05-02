@@ -11,8 +11,23 @@ end
 
 local function HasInstrumentProficiency(character)
     local entity = Ext.Entity.Get(character)
-    local proficiencies = entity.BoostsContainer.Boosts.Proficiency
-    for _, proficiency in pairs(proficiencies) do
+    local boostTypes = entity.BoostsContainer.Boosts
+    local proficiencies = nil
+    -- Get proficiency boost table
+    for _, boosts in ipairs(boostTypes) do
+        if boosts.Type == "Proficiency" then
+            proficiencies = boosts
+        end
+    end
+
+    -- Return false if proficiency boosts table doesn't exist
+    if not proficiencies then
+        return false
+    end
+
+    -- Search for musical instrument proficiency
+    for _, proficiency in pairs(proficiencies.Boosts) do
+        proficiency = proficiency:GetAllComponents()
         for _, name in pairs(proficiency.ProficiencyBoost.Flags) do
             if name == "MusicalInstrument" then
                 return true
