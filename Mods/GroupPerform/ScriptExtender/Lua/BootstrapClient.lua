@@ -107,6 +107,25 @@ local function ModCompatibility()
             stat.Boosts = stat.Boosts .. groupBoost
         end
     end
+
+    -- Amulet of Rituals (https://www.nexusmods.com/baldursgate3/mods/4156)
+    if Ext.Mod.IsModLoaded("842fd505-28b9-407b-95cc-e881c4989e2b") or Ext.Mod.IsModLoaded("91c71877-8da4-4c5d-93ac-29804eba2889") then
+        local instruments = {
+            LuteOfRituals = "Lute",
+            FluteOfRituals = "Flute",
+            DrumOfRituals = "Drum",
+            LyreOfRituals = "Lyre",
+            ViolinOfRituals = "Violin"
+        }
+        for name, instrument in pairs(instruments) do
+            local stat = Ext.Stats.Get(name)
+            if stat then
+                local groupBoost = string.format(
+                    "; UnlockSpell(Shout_Bard_Perform_%s_Group)", instrument)
+                stat.Boosts = stat.Boosts .. groupBoost
+            end
+        end
+    end
 end
 
 
